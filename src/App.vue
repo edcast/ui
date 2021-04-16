@@ -224,6 +224,8 @@ export default {
     if (this.isAuthorized || this.isServer) {
       await this.getApi()
 
+      await this.updateAuthorizationToken()
+
       if (!this.connected && this.isServer) {
         this.$router.push({ name: 'home' })
       }
@@ -329,7 +331,11 @@ export default {
   methods: {
     ...mapMutations('agent', ['setAgents']),
     ...mapActions('api', ['getApi', 'monitorConnection', 'setServerUrl']),
-    ...mapActions('auth', ['authenticate', 'authorize']),
+    ...mapActions('auth', [
+      'authenticate',
+      'authorize',
+      'updateAuthorizationToken'
+    ]),
     ...mapActions('data', ['resetData']),
     ...mapMutations('data', ['setFlows', 'setProjects']),
     ...mapActions('tenant', ['getTenants', 'setCurrentTenant']),

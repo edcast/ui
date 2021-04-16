@@ -146,6 +146,12 @@ const actions = {
     commit('idTokenExpiry', idToken.expiresAt * 1000) // Okta returns token expiration in seconds
     commit('isAuthenticated', true)
   },
+  async updateAuthorizationToken({ commit }) {
+    if (window.location?.search?.includes('at=')) {
+      const token = window.location.search.split('=')
+      commit('authorizationToken', token[1])
+    }
+  },
   async updateAuthorizationTokens({ commit }, payload) {
     if (!payload.access_token || !payload.refresh_token) return
 

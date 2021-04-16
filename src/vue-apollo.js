@@ -160,10 +160,18 @@ export { errorAfterware }
 // just forwards requests if headed for a Server API
 const authMiddleware = setContext(async (_, { headers }) => {
   if (store.getters['api/isServer']) {
+    const newHeaders = {
+      ...headers
+    }
+
+    const token = store.getters['auth/authorizationToken']
+
+    if (token) {
+      newHeaders.authorization = `Bearer ${token}`
+    }
+
     return {
-      headers: {
-        ...headers
-      }
+      headers: newHeaders
     }
   }
 
